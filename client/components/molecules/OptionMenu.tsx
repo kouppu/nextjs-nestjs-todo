@@ -6,7 +6,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 type Props = {
   taskId: number;
-  deleteTaskEvent: any;
+  deleteTaskEvent: (id: number) => Promise<void>;
 };
 
 const OptionMenu = (props: Props) => {

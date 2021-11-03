@@ -51,7 +51,7 @@ const TaskList = () => {
           <TaskContent
             key={task.id}
             task={task}
-            updateCompletedTaskEvent={completeTask}
+            completeTaskEvent={completeTask}
             cancelCompletedTaskEvent={cancelCompletedTask}
             delteTaskEvent={deleteTask}
           />
