@@ -11,11 +11,12 @@ type Action =
 type TasksDispatch = Dispatch<Action>;
 
 const initialState: State = [];
+const initalDispatcn = () => {
+  return;
+};
 
 const TasksStateContext = createContext<State>(initialState);
-const TasksDispatchContext = createContext<TasksDispatch | undefined>(
-  undefined
-);
+const TasksDispatchContext = createContext<TasksDispatch>(initalDispatcn);
 
 const reducer = (state: State, action: Action) => {
   switch (action.type) {
