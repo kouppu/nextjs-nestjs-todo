@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react';
 import List from '@mui/material/List';
 import TaskContent from 'components/molecules/TaskContent';
 import { useTasksState, useTasksDispatch } from 'contexts/TasksContext';
@@ -8,20 +7,6 @@ import TaskInteractor from 'src/interactors/Task/TaskInteractor';
 const TaskList = () => {
   const tasks = useTasksState();
   const dispatch = useTasksDispatch();
-
-  useEffect(() => {
-    const fetchTasks = async () => {
-      const _tasks = await new TaskInteractor(
-        new AuthService().getToken()
-      ).getTasks();
-
-      if (_tasks === undefined) {
-        return;
-      }
-      dispatch({ type: 'ADD_TASKS', value: _tasks });
-    };
-    fetchTasks();
-  }, [dispatch]);
 
   const completeTask = async (id: number) => {
     const result = await new TaskInteractor(
@@ -66,7 +51,7 @@ const TaskList = () => {
           <TaskContent
             key={task.id}
             task={task}
-            updateCompletedTaskEvent={completeTask}
+            completeTaskEvent={completeTask}
             cancelCompletedTaskEvent={cancelCompletedTask}
             delteTaskEvent={deleteTask}
           />

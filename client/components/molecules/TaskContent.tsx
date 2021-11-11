@@ -9,16 +9,16 @@ import OptionMenu from './OptionMenu';
 
 type Props = {
   task: Task;
-  updateCompletedTaskEvent: any;
-  cancelCompletedTaskEvent: any;
-  delteTaskEvent: any;
+  completeTaskEvent: (id: number) => Promise<void>;
+  cancelCompletedTaskEvent: (id: number) => Promise<void>;
+  delteTaskEvent: (id: number) => Promise<void>;
 };
 
 const TaskContent = (props: Props) => {
   const labelId = `checkbox-list-secondary-label-${props.task.id}`;
   const handleCheckBox = (e: ChangeEvent<HTMLInputElement>, id: number) => {
     if (e.target.checked) {
-      props.updateCompletedTaskEvent(id);
+      props.completeTaskEvent(id);
     } else {
       props.cancelCompletedTaskEvent(id);
     }
