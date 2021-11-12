@@ -21,7 +21,7 @@ const TasksDispatchContext = createContext<TasksDispatch>(initalDispatcn);
 const reducer = (state: State, action: Action) => {
   switch (action.type) {
     case 'ADD_TASKS': {
-      return [...state, ...action.value];
+      return action.value;
     }
     case 'ADD_TASK': {
       state.unshift(action.value);
