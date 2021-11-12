@@ -1,17 +1,17 @@
 import type { NextPage } from 'next';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import AuthService from 'src/services/AuthService';
 import MeInteractor from 'src/interactors/Me/MeInteractor';
 import TaskInteractor from 'src/interactors/Task/TaskInteractor';
-import { Me } from 'src/types/domain/Me';
 import HomeTemplate from 'components/templates/HomeTemplate';
 import { useTasksDispatch } from 'contexts/TasksContext';
+import { useUserDispatch } from 'contexts/UserContext';
 
 const Home: NextPage = () => {
   const router = useRouter();
   const tasksDispatch = useTasksDispatch();
-  const [user, setUser] = useState<Me | undefined>();
+  const userDispatch = useUserDispatch();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -23,10 +23,10 @@ const Home: NextPage = () => {
 
         return;
       }
-      setUser(_user);
+      userDispatch({ type: 'ADD_USER', value: _user });
     };
     fetchUser();
-  }, [router]);
+  }, [userDispatch, router]);
 
   useEffect(() => {
     const fetchTasks = async () => {
