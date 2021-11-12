@@ -7,21 +7,24 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Link from 'next/link';
+import { useUserDispatch, useUserState } from 'contexts/UserContext';
 
 const Header = () => {
   const router = useRouter();
+  const user = useUserState();
+  const dispatch = useUserDispatch();
   const [isLoggedIn, setIsLoggedIn] = useState<Boolean>(false);
 
   useEffect(() => {
-    const token = new AuthService().getToken();
-    if (token === undefined) {
+    if (user === undefined) {
       return;
     }
     setIsLoggedIn(true);
-  }, [isLoggedIn]);
+  }, [user, isLoggedIn]);
 
   const logout = () => {
     new AuthService().logout();
+    dispatch({ type: 'DELETE_USER' });
     router.push('/login');
   };
 
