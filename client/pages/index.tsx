@@ -6,7 +6,7 @@ import MeInteractor from 'src/interactors/Me/MeInteractor';
 import TaskInteractor from 'src/interactors/Task/TaskInteractor';
 import HomeTemplate from 'components/templates/HomeTemplate';
 import { useTasksDispatch } from 'contexts/TasksContext';
-import { useUserDispatch } from 'contexts/UserContext';
+import { useUserDispatch, useUserState } from 'contexts/UserContext';
 import LoadingTemplate from 'components/templates/LoadingTemplate';
 
 const Home: NextPage = () => {
@@ -14,6 +14,7 @@ const Home: NextPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const tasksDispatch = useTasksDispatch();
   const userDispatch = useUserDispatch();
+  const user = useUserState();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -35,15 +36,21 @@ const Home: NextPage = () => {
       const _tasks = await new TaskInteractor(
         new AuthService().getToken()
       ).getTasks();
-
       if (_tasks === undefined) {
         return;
       }
       tasksDispatch({ type: 'ADD_TASKS', value: _tasks });
     };
     fetchTasks();
-    setIsLoading(false);
   }, [tasksDispatch]);
+
+  useEffect(() => {
+    if (user == undefined) {
+      return;
+    }
+
+    setIsLoading(false);
+  }, [setIsLoading, user]);
 
   const template = (isLoading: boolean) => {
     return isLoading ? <LoadingTemplate /> : <HomeTemplate />;
